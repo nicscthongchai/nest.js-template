@@ -6,10 +6,7 @@ export class AppController {
   @Render('index.pug')
   async index() {
     return {
-      message: `
-        Hello, world!
-        I'm the immortal.
-      `,
+      message: `<b>Hello, world! I'm the immortal.</b>`,
     };
   }
 }
