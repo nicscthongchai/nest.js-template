@@ -1,4 +1,6 @@
 import { Controller, Get, Render } from '@nestjs/common';
+import * as dayjs from 'dayjs';
+import { startedAt } from './app.service';
 
 @Controller('')
 export class AppController {
@@ -6,7 +8,10 @@ export class AppController {
   @Render('index.pug')
   async index() {
     return {
-      message: `<b>Hello, world! I'm the immortal.</b>`,
+      appName: 'NestJS',
+      since: `<small>Since</small> ${dayjs(startedAt).format(
+        'DD MMMM YYYY, HH:mm',
+      )} (${dayjs().to(startedAt)})`,
     };
   }
 }

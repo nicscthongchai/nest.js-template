@@ -7,6 +7,15 @@ const firstUppercase = (text: string) => {
   return text[0].toUpperCase() + text.slice(1).toLowerCase();
 };
 
+const app = {
+  _startedAt: new Date(),
+  get startedAt() {
+    return app._startedAt;
+  },
+};
+
+export const startedAt = app.startedAt;
+
 @Injectable()
 export class AppService {
   constructor(public configService: ConfigService) {}

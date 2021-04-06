@@ -2,5 +2,8 @@ doctype html
 html(lang="en")
     head
         meta(charset="UTF-8")
-        title Document
-    body !{message}
+        title #{ appName }
+
+    body(style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;font-family:monospace")
+        h1 #{ appName }
+        p !{ since }

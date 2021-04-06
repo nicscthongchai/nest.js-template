@@ -4,10 +4,14 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import * as dayjs from 'dayjs';
+import * as relativeTime from 'dayjs/plugin/relativeTime';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { AppService } from './app.service';
 import { AppConfig } from './configs/app.config';
+
+dayjs.extend(relativeTime);
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
