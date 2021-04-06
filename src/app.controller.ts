@@ -8,7 +8,7 @@ export class AppController {
   @Render('index.pug')
   async index() {
     return {
-      appName: 'NestJS',
+      appName: 'NestJS API Template',
       since: `<small>Since</small> ${dayjs(startedAt).format(
         'DD MMMM YYYY, HH:mm',
       )} (${dayjs().to(startedAt)})`,
