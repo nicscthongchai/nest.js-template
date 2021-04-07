@@ -1,24 +1,17 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import chalk from 'chalk'
-import { AppConfig } from '../configs/app.config'
+import { AppConfig } from '../configuration'
 
 const firstUppercase = (text: string) => {
   return text[0].toUpperCase() + text.slice(1).toLowerCase()
 }
 
-const app = {
-  _startedAt: new Date(),
-  get startedAt() {
-    return app._startedAt
-  },
-}
-
-export const startedAt = app.startedAt
-
 @Injectable()
 export class AppService {
-  constructor(public configService: ConfigService) {}
+  constructor(private configService: ConfigService) {}
+
+  public startedAt: Date = new Date()
 
   getOnStartListener() {
     const config = this.configService.get<AppConfig>('app')

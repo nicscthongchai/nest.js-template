@@ -9,7 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { join } from 'path'
 import { AppModule } from './app/app.module'
 import { AppService } from './app/app.service'
-import { AppConfig } from './configs/app.config'
+import { AppConfig } from './configuration'
 
 async function bootstrap() {
   dayjs.extend(relativeTime)
