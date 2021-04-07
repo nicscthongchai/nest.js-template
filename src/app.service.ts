@@ -20,7 +20,7 @@ export const startedAt = app.startedAt;
 export class AppService {
   constructor(public configService: ConfigService) {}
 
-  onStartListener() {
+  getOnStartListener() {
     const config = this.configService.get<AppConfig>('app');
     const url = `http://localhost:${config.port}`;
     return () => {

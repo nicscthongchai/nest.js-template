@@ -31,7 +31,7 @@ async function bootstrap() {
   const appService = app.get(AppService);
   const configService = app.get(ConfigService);
   const appConfig = configService.get<AppConfig>('app');
-  await app.listen(appConfig.port, '0.0.0.0', appService.onStartListener());
+  await app.listen(appConfig.port, '0.0.0.0', appService.getOnStartListener());
 }
 
 bootstrap();
