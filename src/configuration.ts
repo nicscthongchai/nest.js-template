@@ -1,16 +1,18 @@
+import { MongooseModuleOptions } from '@nestjs/mongoose'
+
 export class AppConfig {
   env: 'development' | 'test' | 'staging' | 'production'
   port: number
   enableIndexPage: boolean
 }
 
-export class MongoConfig {
+export class MongoConfig implements MongooseModuleOptions {
   uri: string
 }
 
 export type Config = {
   AppConfig: AppConfig
-  MongoConfig: MongoConfig
+  MongoConfig: MongoConfig & MongooseModuleOptions
 }
 
 export default (): Config => ({
@@ -21,5 +23,10 @@ export default (): Config => ({
   },
   MongoConfig: {
     uri: process.env.MONGO_URI || 'mongodb://localhost',
+    dbName: process.env.DB_NAME || 'test',
+    useCreateIndex: true,
+    useFindAndModify: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   },
 })

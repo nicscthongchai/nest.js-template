@@ -14,7 +14,6 @@ export class AppService {
   public startedAt: Date = new Date()
 
   getOnStartListener() {
-    console.log(AppConfig.name)
     const config = this.configService.get<AppConfig>(AppConfig.name)
     const url = `http://localhost:${config.port}`
     return () => {
