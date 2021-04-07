@@ -24,7 +24,7 @@ async function bootstrap() {
 
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
-    prefix: '/public/',
+    prefix: '/',
   })
   app.setViewEngine({
     engine: {
