@@ -7,8 +7,8 @@ import {
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { join } from 'path'
-import { AppModule } from './app/app.module'
-import { AppService } from './app/app.service'
+import { AppModule } from './app.module'
+import { AppService } from './app.service'
 import { AppConfig } from './configuration'
 
 async function bootstrap() {
@@ -20,7 +20,7 @@ async function bootstrap() {
   )
   const appService = app.get(AppService)
   const configService = app.get(ConfigService)
-  const appConfig = configService.get<AppConfig>('app')
+  const appConfig = configService.get<AppConfig>(AppConfig.name)
 
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),

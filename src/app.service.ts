@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import chalk from 'chalk'
-import { AppConfig } from '../configuration'
+import { AppConfig } from './configuration'
 
 const firstUppercase = (text: string) => {
   return text[0].toUpperCase() + text.slice(1).toLowerCase()
@@ -14,7 +14,8 @@ export class AppService {
   public startedAt: Date = new Date()
 
   getOnStartListener() {
-    const config = this.configService.get<AppConfig>('app')
+    console.log(AppConfig.name)
+    const config = this.configService.get<AppConfig>(AppConfig.name)
     const url = `http://localhost:${config.port}`
     return () => {
       console.log('')
