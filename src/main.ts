@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import {
@@ -6,10 +7,11 @@ import {
 } from '@nestjs/platform-fastify'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import secureSession from 'fastify-secure-session'
 import { join } from 'path'
 import { AppModule } from './app.module'
 import { AppService } from './app.service'
-import { AppConfig } from './configuration'
+import { AppConfig, AuthConfig } from './configuration'
 
 async function bootstrap() {
   dayjs.extend(relativeTime)
@@ -21,11 +23,24 @@ async function bootstrap() {
   const appService = app.get(AppService)
   const configService = app.get(ConfigService)
   const appConfig = configService.get<AppConfig>(AppConfig.name)
+  const authConfig = configService.get<AuthConfig>(AuthConfig.name)
+
+  app.useGlobalPipes(new ValidationPipe())
+
+  app.register(secureSession, {
+    key: Buffer.from(authConfig.sessionKey, 'hex'),
+    cookieName: '_ss',
+    cookie: {
+      path: '/',
+      httpOnly: true,
+    },
+  })
 
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
     prefix: '/',
   })
+
   app.setViewEngine({
     engine: {
       pug: require('pug'),
