@@ -11,7 +11,8 @@ export class AppController {
   @Get()
   @Render('index.pug')
   async index() {
-    const appConfig = this.config.get<AppConfig>('app')
+    const appConfig = this.config.get<AppConfig>(AppConfig.name)
+
     if (!appConfig.enableIndexPage) {
       throw new NotFoundException('Cannot GET /')
     }
