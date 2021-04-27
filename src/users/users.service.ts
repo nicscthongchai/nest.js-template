@@ -15,9 +15,10 @@ export class UsersService {
   ) {}
 
   async findByUsername(username: string) {
-    return await this.userModel.findOne({
-      username: new RegExp(`${username}`, 'i'),
-    })
+    const filter = {
+      username: new RegExp(`${username.replace(/ |\.|\_/g, '')}`, 'i'),
+    }
+    return await this.userModel.findOne(filter)
   }
 
   async create(dto: CreateUserDto) {
@@ -26,7 +27,7 @@ export class UsersService {
       throw new BadRequestException('username already taken')
     }
     const { saltRound } = this.configService.get<AuthConfig>(AuthConfig.name)
-    dto.username = dto.username.toLowerCase()
+    dto.username = dto.username.toLowerCase().replace(/ |\.|\_/g, '')
     dto.password = hashSync(dto.password, saltRound)
     const user = new this.userModel(dto)
     await user.save()
