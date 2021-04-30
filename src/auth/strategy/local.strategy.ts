@@ -19,8 +19,12 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException()
     }
-    request.session.set('username', user.username)
-    request.session.set('roles', user.roles)
+
+    request.session.user = {
+      username: user.username,
+      roles: user.roles,
+    }
+
     return user
   }
 }

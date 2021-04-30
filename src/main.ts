@@ -5,16 +5,21 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
+import connectRedis from 'connect-redis'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import secureSession from 'fastify-secure-session'
+import fastifyCookie from 'fastify-cookie'
+import fastifySession from 'fastify-session'
 import { join } from 'path'
+import { createClient as createRedisClient } from 'redis'
 import { AppModule } from './app.module'
 import { AppService } from './app.service'
 import { AppConfig, AuthConfig } from './configuration'
 
 async function bootstrap() {
   dayjs.extend(relativeTime)
+
+  const RedisStore = connectRedis(fastifySession)
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -27,12 +32,19 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe())
 
-  app.register(secureSession, {
-    key: Buffer.from(authConfig.sessionKey, 'hex'),
-    cookieName: '_ss',
+  app.register(fastifyCookie)
+
+  app.register(fastifySession, {
+    secret: authConfig.sessionKey,
+    store: new RedisStore({
+      client: createRedisClient({}),
+    }),
+    cookieName: '__ss',
     cookie: {
-      path: '/',
+      secure: appConfig.env !== 'development',
       httpOnly: true,
+      path: '/',
+      maxAge: 1 * 365 * 24 * 60 * 60 * 1000,
     },
   })
 
