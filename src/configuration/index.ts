@@ -45,7 +45,7 @@ export default (): Config => ({
   },
   MongoConfig: {
     uri: process.env.MONGO_URI || 'mongodb://localhost',
-    dbName: process.env.DB_NAME || 'test',
+    dbName: process.env.MONGO_DB_NAME || 'test',
     useCreateIndex: true,
     useFindAndModify: true,
     useNewUrlParser: true,
