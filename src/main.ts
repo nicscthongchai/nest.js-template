@@ -28,16 +28,22 @@ async function bootstrap() {
   const appService = app.get(AppService)
   const configService = app.get(ConfigService)
   const appConfig = configService.get<AppConfig>(AppConfig.name)
-  const authConfig = configService.get<AuthConfig>(AuthConfig.name)
+  const { redis, ...authConfig } = configService.get<AuthConfig>(
+    AuthConfig.name,
+  )
 
   app.useGlobalPipes(new ValidationPipe())
 
   app.register(fastifyCookie)
 
   app.register(fastifySession, {
-    secret: authConfig.sessionKey,
+    secret: authConfig.cookieSecret,
     store: new RedisStore({
-      client: createRedisClient({}),
+      client: createRedisClient({
+        host: redis.host,
+        port: redis.port,
+        password: redis.password,
+      }),
     }),
     cookieName: '__ss',
     cookie: {

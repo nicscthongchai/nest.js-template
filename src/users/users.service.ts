@@ -14,11 +14,14 @@ export class UsersService {
     private configService: ConfigService,
   ) {}
 
-  async findByUsername(username: string) {
+  async findByUsername(username: string, options?: { password?: boolean }) {
     const filter = {
       username: new RegExp(`${username.replace(/ |\.|\_/g, '')}`, 'i'),
     }
-    return await this.userModel.findOne(filter)
+    return await this.userModel.findOne(
+      filter,
+      options ? { password: options.password } : null,
+    )
   }
 
   async create(dto: CreateUserDto) {
