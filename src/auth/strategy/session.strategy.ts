@@ -11,6 +11,11 @@ export class SessionStrategy extends PassportStrategy(Strategy, 'session') {
 
   async validate(req: FastifyRequest) {
     const { session } = req
+
+    if (!session || !session.user) {
+      throw new UnauthorizedException()
+    }
+
     const username = session.user.username
     const roles = session.user.roles
 
