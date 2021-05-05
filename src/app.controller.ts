@@ -1,8 +1,8 @@
 import { Controller, Get, NotFoundException, Render } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import dayjs from 'dayjs'
-import { AppConfig } from 'src/configuration'
 import { AppService } from './app.service'
+import { AppConfig } from './configuration'
 
 @Controller('')
 export class AppController {
