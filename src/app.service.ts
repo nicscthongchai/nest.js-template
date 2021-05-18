@@ -23,6 +23,7 @@ export class AppService {
             ...network[name].find((info) => info.family === 'IPv4'),
             name,
           }))
+          .filter((info) => info.address)
           .map((info) => {
             const { address } = info
             const url = chalk.magentaBright(`http://${address}:${config.port}`)
