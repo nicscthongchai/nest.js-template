@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post, Session, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Post, Req, Session, UseGuards } from '@nestjs/common'
 import { FastifyRequest } from 'fastify'
-import { SessionAuthGuard } from 'src/auth/guards/session-auth.guard'
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UsersService } from './users.service'
 
@@ -8,10 +8,10 @@ import { UsersService } from './users.service'
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @UseGuards(SessionAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('me')
-  async me(@Session() session: FastifyRequest['session']) {
-    const { username } = session.user
+  async me(@Req() req: FastifyRequest) {
+    const { username } = req['user']
     const user = await this.usersService.findByUsername(username, {
       password: false,
     })

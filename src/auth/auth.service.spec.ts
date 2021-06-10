@@ -6,7 +6,7 @@ import configuration, { MongoConfig } from 'src/configuration'
 import { UsersModule } from 'src/users/users.module'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
-import { LocalStrategy } from './strategy/local.strategy'
+import { LocalSessionStrategy } from './strategy/local-session.strategy'
 import { SessionStrategy } from './strategy/session.strategy'
 
 describe('AuthService', () => {
@@ -28,7 +28,7 @@ describe('AuthService', () => {
         PassportModule,
         UsersModule,
       ],
-      providers: [AuthService, SessionStrategy, LocalStrategy],
+      providers: [AuthService, SessionStrategy, LocalSessionStrategy],
       controllers: [AuthController],
     }).compile()
 

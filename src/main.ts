@@ -1,10 +1,7 @@
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify'
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
 import connectRedis from 'connect-redis'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -21,16 +18,11 @@ async function bootstrap() {
 
   const RedisStore = connectRedis(fastifySession)
 
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({}),
-  )
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({}))
   const appService = app.get(AppService)
   const configService = app.get(ConfigService)
   const appConfig = configService.get<AppConfig>(AppConfig.name)
-  const { redis, ...authConfig } = configService.get<AuthConfig>(
-    AuthConfig.name,
-  )
+  const { redis, ...authConfig } = configService.get<AuthConfig>(AuthConfig.name)
 
   app.useGlobalPipes(new ValidationPipe())
 

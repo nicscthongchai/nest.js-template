@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { AppModule } from 'src/app.module'
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify'
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { join } from 'path'
@@ -18,9 +15,7 @@ describe('AppController (e2e)', () => {
       imports: [AppModule],
     }).compile()
 
-    app = moduleFixture.createNestApplication<NestFastifyApplication>(
-      new FastifyAdapter(),
-    )
+    app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter())
 
     app.useStaticAssets({
       root: join(__dirname, '..', 'public'),

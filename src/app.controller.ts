@@ -21,9 +21,7 @@ export class AppController {
 
     return {
       appName: 'NestJS',
-      since: `<small>Since</small> ${dayjs(startedAt).format(
-        'DD MMMM YYYY, HH:mm',
-      )} (${dayjs().to(startedAt)})`,
+      since: `<small>Since</small> ${dayjs(startedAt).format('DD MMMM YYYY, HH:mm')} (${dayjs().to(startedAt)})`,
     }
   }
 }
