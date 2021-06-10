@@ -1,45 +1,63 @@
-import { Controller, Get, HttpCode, InternalServerErrorException, Post, Req, Res, UseGuards } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  InternalServerErrorException,
+  Post,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { AuthService } from './auth.service'
-import { LocalJwtAuthGuard } from './guards/local-jwt-auth.guard'
-import { LocalSessionAuthGuard } from './guards/local-session-auth.guard'
-import { SessionAuthGuard } from './guards/session-auth.guard'
+import { Principal } from './decorators/principal.decorator'
+import { BasicAuthGuard } from './guards/basic-auth.guard'
+import { LocalAuthGuard } from './guards/local-auth.guard'
+import { AuthPrincipal } from './interfaces/auth-principal'
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(LocalSessionAuthGuard)
-  @Post('/sign-in')
-  @HttpCode(200)
-  signIn() {
-    return
+  @UseGuards(BasicAuthGuard)
+  @Get('/sign-in')
+  signIn(
+    @Principal() principal: AuthPrincipal,
+    @Req() req: FastifyRequest,
+    @Res() reply: FastifyReply,
+    @Query('r') redirect: string,
+  ) {
+    req.session.user = principal
+    reply.status(HttpStatus.TEMPORARY_REDIRECT)
+    reply.redirect(redirect || '/')
   }
 
-  @UseGuards(SessionAuthGuard)
   @Get('/sign-out')
-  signOut(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
-    if (req.session.user) {
+  signOut(@Req() req: FastifyRequest, @Res() reply: FastifyReply, @Query('r') redirect: string) {
+    if (req.session.user?.isAuthenticated) {
       req.destroySession((err) => {
         if (err) {
-          reply.status(500)
+          reply.status(HttpStatus.INTERNAL_SERVER_ERROR)
           reply.send(new InternalServerErrorException())
         } else {
-          reply.send()
+          reply.status(HttpStatus.TEMPORARY_REDIRECT)
+          reply.redirect(redirect || '/')
         }
       })
     } else {
-      reply.send()
+      reply.status(HttpStatus.TEMPORARY_REDIRECT)
+      reply.redirect(redirect || '/')
     }
   }
 
-  @UseGuards(LocalJwtAuthGuard)
-  @Post('/jwt')
-  @HttpCode(200)
-  async getJwtToken(@Req() req: FastifyRequest) {
-    const user = req['user']
+  @UseGuards(LocalAuthGuard)
+  @Post('/token')
+  @HttpCode(HttpStatus.OK)
+  async getJwtToken(@Principal() principal: AuthPrincipal) {
     return {
-      accessToken: await this.authService.signToken(user),
+      accessToken: await this.authService.signToken(principal),
     }
   }
 }

@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common'
-import { FastifyRequest } from 'fastify'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import { Principal } from 'src/auth/decorators/principal.decorator'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
+import { AuthPrincipal } from 'src/auth/interfaces/auth-principal'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UsersService } from './users.service'
 
@@ -10,8 +11,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  async me(@Req() req: FastifyRequest) {
-    const { username } = req['user']
+  async me(@Principal() principal: AuthPrincipal) {
+    const { username } = principal
     const user = await this.usersService.findByUsername(username, {
       password: false,
     })

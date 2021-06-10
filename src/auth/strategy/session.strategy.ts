@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { FastifyRequest } from 'fastify'
 import { Strategy } from 'passport-custom'
+import { AuthPrincipal } from '../interfaces/auth-principal'
 
 @Injectable()
 export class SessionStrategy extends PassportStrategy(Strategy, 'session') {
@@ -9,7 +10,7 @@ export class SessionStrategy extends PassportStrategy(Strategy, 'session') {
     super()
   }
 
-  async validate(req: FastifyRequest) {
+  async validate(req: FastifyRequest): Promise<AuthPrincipal> {
     const { session } = req
 
     if (!session || !session.user) {
@@ -24,6 +25,7 @@ export class SessionStrategy extends PassportStrategy(Strategy, 'session') {
     }
 
     return {
+      isAuthenticated: true,
       username,
       roles,
     }

@@ -3,7 +3,8 @@ import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { AuthConfig } from 'src/configuration'
-import { JwtPayload } from '../interfaces/jwt-payload'
+import { AuthPrincipal } from '../interfaces/auth-principal'
+import { AuthIdentity } from '../interfaces/auth-identity'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -15,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  async validate(payload: JwtPayload) {
-    return payload
+  async validate(payload: AuthIdentity): Promise<AuthPrincipal> {
+    return { isAuthenticated: true, ...payload }
   }
 }
