@@ -14,10 +14,10 @@ export class BasicStrategy extends PassportStrategy(Strategy, 'basic') {
 
   async validate(req: FastifyRequest): Promise<AuthPrincipal> {
     const { headers } = req
-    if (!headers.authorization) {
+    const { scheme, token } = AuthHeader(headers.authorization)
+    if (scheme.toLowerCase() !== 'basic') {
       throw new UnauthorizedException()
     }
-    const { token } = AuthHeader(headers.authorization)
     const buffer = Buffer.from(token, 'base64')
     const parsed = buffer.toString('utf-8')
     const [username, password] = parsed.split(':')
