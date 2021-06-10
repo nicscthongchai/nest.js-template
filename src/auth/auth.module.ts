@@ -17,7 +17,7 @@ import { JwtStrategy } from './strategy/jwt.strategy'
     JwtModule.registerAsync({
       inject: [ConfigService],
       async useFactory(config: ConfigService) {
-        const { cookieSecret, signOptions } = config.get<AuthConfig>(AuthConfig.name)
+        const { secret: cookieSecret, signOptions } = config.get<AuthConfig>(AuthConfig.name)
         return { secret: cookieSecret, signOptions }
       },
     }),

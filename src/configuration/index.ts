@@ -8,7 +8,7 @@ export class AppConfig {
 }
 
 export class AuthConfig {
-  cookieSecret: string
+  secret: string
   saltRound: number
   redis: {
     host: string
@@ -35,7 +35,7 @@ export default (): Config => ({
     enableIndexPage: true,
   },
   AuthConfig: {
-    cookieSecret: process.env.COOKIE_SECRET || '54930a9d286eb2e52cf63521fb8aff4dbd55116ca049c13a7acc145852c1f2f0',
+    secret: process.env.AUTH_SECRET || '54930a9d286eb2e52cf63521fb8aff4dbd55116ca049c13a7acc145852c1f2f0',
     saltRound: parseInt(process.env.SALT_ROUND || '10'),
     redis: {
       host: process.env.REDIS_HOST || '127.0.0.1',

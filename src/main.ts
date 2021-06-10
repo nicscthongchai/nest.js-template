@@ -29,7 +29,7 @@ async function bootstrap() {
   app.register(fastifyCookie)
 
   app.register(fastifySession, {
-    secret: authConfig.cookieSecret,
+    secret: authConfig.secret,
     store: new RedisStore({
       client: createRedisClient({
         host: redis.host,
