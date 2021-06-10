@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Session, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common'
 import { FastifyRequest } from 'fastify'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { CreateUserDto } from './dto/create-user.dto'
