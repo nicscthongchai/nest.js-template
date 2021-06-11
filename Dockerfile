@@ -17,6 +17,7 @@ WORKDIR /app
 # RUN mv ./kubectl /usr/local/bin/kubectl
 # COPY ./kubeconfig.yaml /app/kubeconfig.yaml
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/public ./public
 COPY --from=modules /app/node_modules ./node_modules
 
 CMD [ "node", "dist/main" ]
