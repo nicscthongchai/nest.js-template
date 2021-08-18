@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  nest.js-template:
+    build: .
+    image: hellfactory777/nest.js-template
+    container_name: nest.js-template
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: production
+      PORT: 3000
