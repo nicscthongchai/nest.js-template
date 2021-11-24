@@ -18,7 +18,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
     logger,
   });
-  const configService = app.get(ConfigService);
+  const configService = app.get<ConfigService<any, boolean>>(ConfigService);
   const { port, logLevels } = configService.get<AppConfig>(AppConfig.name);
 
   app.useGlobalPipes(
