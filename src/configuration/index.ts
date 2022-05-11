@@ -14,6 +14,8 @@ export default (): Config => ({
   AppConfig: {
     env: (process.env.NODE_ENV as Config['AppConfig']['env']) || 'development',
     port: parseInt(process.env.PORT || '3000'),
-    logLevels: JSON.parse(process.env.LOG_LEVELS || '["verbose","debug","log","warn","error"]'),
+    logLevels: JSON.parse(
+      process.env.LOG_LEVELS || '["verbose","debug","log","warn","error"]',
+    ),
   },
 });
