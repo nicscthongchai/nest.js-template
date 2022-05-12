@@ -85,10 +85,10 @@ export class LoggerService implements CoreLoggerService {
     const network = networkInterfaces();
     console.log('');
     this.verbose(`Enabled ${chalk.bold('verbose')} log`);
-    this.debug(`Enabled ${chalk.bold('debug')} log`);
-    this.log(`Enabled ${chalk.bold('log')} log`);
-    this.warn(`Enabled ${chalk.bold('warn')} log`);
-    this.error(`Enabled ${chalk.bold('error')} log`);
+    this.debug(`Enabled ${chalk.bold('debug')}   log`);
+    this.log(`Enabled ${chalk.bold('log')}     log`);
+    this.warn(`Enabled ${chalk.bold('warn')}    log`);
+    this.error(`Enabled ${chalk.bold('error')}   log`);
     console.log('');
     console.log(chalk.blue('Access URLs:'));
     console.log(chalk.gray('-------------------------------------'));
