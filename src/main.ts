@@ -1,4 +1,3 @@
-import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import {
@@ -25,18 +24,8 @@ async function bootstrap() {
       logger,
     },
   );
-  const configService = app.get<ConfigService<any, boolean>>(ConfigService);
+  const configService = app.get(ConfigService);
   const { port, logLevels } = configService.get<AppConfig>(AppConfig.name);
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      transformOptions: { enableImplicitConversion: true },
-    }),
-  );
-
   logger.setLogLevels(logLevels);
 
   await app.listen(
