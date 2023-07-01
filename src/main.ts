@@ -8,8 +8,8 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { AppModule } from './app.module';
-import { AppConfig } from './configuration';
 import { LoggerService } from './logger/logger.service';
+import AppConfig from './configuration/app.config';
 
 async function bootstrap() {
   dayjs.extend(utc);
