@@ -1,4 +1,18 @@
 {
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "semi": false,
+  "printWidth": 120,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrderParserPlugins": ["typescript", "classProperties", "decorators-legacy"],
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^./",
+    "^../[0-9a-zA-Z]",
+    "^../../[0-9a-zA-Z]",
+    "^../../../[0-9a-zA-Z]",
+    "^../../../../[0-9a-zA-Z]",
+    "^../../../../../[0-9a-zA-Z]"
+  ],
+  "importOrderSeparation": true
 }
